@@ -1,0 +1,72 @@
+.job-url-input {
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  border: 1px solid #e0e0e0;
+}
+
+.job-url-input h3 {
+  margin: 0 0 10px 0;
+  font-size: 16px;
+  color: var(--secondary-color);
+}
+
+.url-form {
+  margin-bottom: 10px;
+}
+
+.input-group {
+  display: flex;
+  gap: 8px;
+}
+
+.url-input {
+  flex: 1;
+  padding: 8px 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.url-submit-button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0 15px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+.url-submit-button:hover {
+  background-color: #2980b9;
+}
+
+.url-submit-button:disabled {
+  background-color: #95a5a6;
+  cursor: not-allowed;
+}
+
+.url-error {
+  color: var(--danger-color);
+  font-size: 13px;
+  margin-top: 8px;
+}
+
+.url-loading {
+  color: var(--primary-color);
+  font-size: 13px;
+  margin-top: 8px;
+}
+
+.url-info {
+  font-size: 12px;
+  color: #777;
+  margin-top: 5px;
+}
+
+.url-info p {
+  margin: 0;
+}

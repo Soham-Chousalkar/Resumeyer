@@ -36,6 +36,32 @@
   padding: 10px;
 }
 
+.parsed-job-info {
+  background-color: #f0f7ff;
+  border: 1px solid #d0e3ff;
+  border-radius: 4px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.parsed-job-title {
+  font-weight: bold;
+  font-size: 16px;
+  margin-bottom: 5px;
+  color: var(--secondary-color);
+}
+
+.parsed-job-company {
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.parsed-job-source {
+  font-size: 12px;
+  color: #777;
+  font-style: italic;
+}
+
 .job-description-textarea {
   width: 100%;
   padding: 8px;

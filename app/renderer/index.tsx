@@ -12,6 +12,7 @@ import './styles/document-preview.css';
 import './styles/resume-tailoring.css';
 import './styles/pdf-viewer.css';
 import './styles/export-tools.css';
+import './styles/job-url.css';
 
 const rootElement = document.getElementById('root');
 if (!rootElement) throw new Error('Failed to find the root element');

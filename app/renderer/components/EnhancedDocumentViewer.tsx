@@ -317,6 +317,7 @@ const EnhancedDocumentViewer: React.FC<EnhancedDocumentViewerProps> = ({
           <JobDescriptionInput
             onJobDescriptionSubmit={handleJobDescriptionSubmit}
             isProcessing={isProcessing}
+            onLog={addLog}
           />
 
           {content && (jobDescription || parsedJob || localJobDescription || localParsedJob) && (

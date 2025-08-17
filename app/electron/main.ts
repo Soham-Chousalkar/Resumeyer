@@ -4,6 +4,7 @@ import * as fs from 'fs';
 import { setupOllamaHandlers } from './ollama-bridge';
 import { PDFService } from '../services/pdfService';
 import { initExportHandlers } from './export-bridge';
+import { initUrlParsingHandlers } from './url-parsing-bridge';
 
 // Define the base path for resume files
 const RESUME_BASE_PATH = 'D:\\UD\\Resume-CL';
@@ -56,6 +57,7 @@ app.on('ready', () => {
     createWindow();
     setupOllamaHandlers();
     initExportHandlers();
+    initUrlParsingHandlers();
 });
 
 app.on('window-all-closed', () => {
