@@ -1,0 +1,12 @@
+To complete the packaging process, you'll need to add an icon file named "icon.ico" in this directory.
+
+You can create an .ico file from any image using online converters or tools like:
+1. https://convertio.co/png-ico/
+2. https://icoconvert.com/
+3. Or use professional tools like Photoshop or GIMP
+
+The recommended size for the icon is 256x256 pixels.
+
+Once you have your icon.ico file, place it in this directory (app/assets/) and run the packaging command:
+
+npm run make-exe

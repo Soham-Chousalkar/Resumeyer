@@ -55,6 +55,12 @@ Resumeyer is a local-first desktop application that automatically tailors resume
    npm run dist
    ```
 
+6. Create a standalone Windows executable:
+   ```bash
+   npm run make-exe
+   ```
+   This will create a distributable in the `release` folder.
+
 ## Usage
 
 1. Launch the application
@@ -71,6 +77,17 @@ Resumeyer is a local-first desktop application that automatically tailors resume
 - `/app/renderer`: React components and frontend code
 - `/app/services`: Shared services for document processing
 - `/app/models`: Data models and interfaces
+
+## Distribution
+
+The application can be packaged as a standalone Windows executable that can be shared with others:
+
+1. Before packaging, add an icon file named `icon.ico` to the `app/assets/` directory
+2. Run `npm run make-exe` to create the Windows installer
+3. The packaged application will be available in the `release` folder
+4. Share the installer with others - they can install and run Resumeyer without needing to install Node.js
+
+Note: End users will still need to install [Ollama](https://ollama.ai/) for the AI functionality to work.
 
 ## License
 

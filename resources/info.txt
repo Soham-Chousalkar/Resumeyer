@@ -1,0 +1,5 @@
+Resumeyer - Resume Tailoring Application
+
+This application helps you tailor your resume and cover letters to specific job descriptions using local LLM technology.
+
+For more information, visit: https://github.com/Soham-Chousalkar/Resumeyer
