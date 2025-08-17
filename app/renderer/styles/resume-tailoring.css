@@ -1,0 +1,137 @@
+.resume-tailoring {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 15px;
+  background-color: #f5f7fa;
+  border-radius: 8px;
+  margin: 15px 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e0e5e9;
+}
+
+.tailor-button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.tailor-button:hover {
+  background-color: #2980b9;
+}
+
+.tailor-button.disabled {
+  background-color: #95a5a6;
+  cursor: not-allowed;
+}
+
+.tailoring-info {
+  margin-top: 10px;
+  color: #7f8c8d;
+  font-size: 14px;
+}
+
+/* Tailoring in progress */
+.tailoring-progress {
+  margin-top: 15px;
+  width: 100%;
+}
+
+.progress-bar-container {
+  width: 100%;
+  height: 8px;
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background-color: var(--primary-color);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.progress-status {
+  margin-top: 5px;
+  text-align: center;
+  font-size: 12px;
+  color: #7f8c8d;
+}
+
+/* Tailoring results */
+.tailoring-result {
+  margin-top: 15px;
+  width: 100%;
+}
+
+.result-stats {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 15px;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat-value {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.stat-label {
+  font-size: 12px;
+  color: #7f8c8d;
+}
+
+/* ATS keywords match section */
+.ats-keywords {
+  margin-top: 15px;
+  border-top: 1px solid #e0e0e0;
+  padding-top: 15px;
+}
+
+.ats-title {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.keyword-matches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.keyword {
+  padding: 4px 8px;
+  border-radius: 20px;
+  font-size: 12px;
+  background-color: #e1f5fe;
+  color: #0288d1;
+}
+
+.keyword.matched {
+  background-color: #e8f5e9;
+  color: #388e3c;
+}
+
+.keyword.missing {
+  background-color: #ffebee;
+  color: #d32f2f;
+}

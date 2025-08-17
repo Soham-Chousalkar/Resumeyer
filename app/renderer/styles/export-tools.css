@@ -1,0 +1,89 @@
+.export-tools {
+  padding: 10px;
+  background-color: #f5f5f5;
+  border-top: 1px solid var(--border-color);
+}
+
+.export-buttons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.export-button {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.export-button:hover {
+  transform: translateY(-1px);
+}
+
+.export-button:active {
+  transform: translateY(0);
+}
+
+.export-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.pdf-button {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.pdf-button:hover {
+  background-color: #c0392b;
+}
+
+.docx-button {
+  background-color: #3498db;
+  color: white;
+}
+
+.docx-button:hover {
+  background-color: #2980b9;
+}
+
+.open-button {
+  background-color: #2ecc71;
+  color: white;
+}
+
+.open-button:hover {
+  background-color: #27ae60;
+}
+
+.export-status {
+  font-size: 14px;
+  padding: 8px;
+  border-radius: 4px;
+  margin-top: 10px;
+}
+
+.export-status.exporting {
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  color: #495057;
+}
+
+.export-status.success {
+  background-color: #d4edda;
+  border: 1px solid #c3e6cb;
+  color: #155724;
+}
+
+.export-status.error {
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  color: #721c24;
+}

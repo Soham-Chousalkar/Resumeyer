@@ -1,0 +1,377 @@
+Project Brief — Local, Free Resume & Cover Letter Auto-Tailor
+Goal
+
+A local-first desktop app that:
+
+Takes a job link (or pasted JD text) + a reference resume (Google Doc/DOCX/PDF),
+
+Auto-tailors resume content (and cover letter on demand),
+
+Shows an editable, Google-Docs-like live preview,
+
+Enforces your layout rules (1 page, dense but readable, no “empty-looking” bullets),
+
+Saves outputs into your Windows folder tree exactly as you do today:
+D:\UD\Resume-CL\{Company}\{Role-Year}\...
+
+Non-negotiables
+
+No API costs: use local LLMs (Ollama / llama.cpp).
+
+Two edit modes:
+
+Granular diff with accept/reject;
+
+Auto-apply with undo history.
+Toggle between them.
+
+Turn-based editing: AI proposes → you tweak → (optionally) AI proposes again.
+
+Change-log toggle (on/off) for “why a change happened.”
+
+Stack (fast + free)
+
+Shell: Electron (Win desktop), supports offline.
+
+Frontend: React + TypeScript.
+
+Docs-like Editor: TipTap (ProseMirror) styled to mimic Google Docs (toolbars, ruler feel, margins). Exports to DOCX/PDF.
+
+Backend: Node.js (IPC + local services).
+
+AI runtime (local): Ollama (recommended models below). No cloud calls.
+
+Parsing
+
+PDF → text: pdf-parse (Node) or pdfplumber (via tiny Python worker if needed).
+
+DOCX → text: mammoth.
+
+Rendering to PDF: playwright or puppeteer print-to-PDF from the HTML editor.
+
+Local search/keywords: wink-nlp or natural (simple), optional sentence-transformers (Lite embeddings via ONNX if you want semantics offline).
+
+If you later want “Google Docs embedded preview,” we can add OAuth + Docs API, but per your constraints we keep it local and only style the editor to look/feel like Docs.
+
+Local LLM setup (no cost)
+
+Install Ollama and ship model cards in README.
+
+Start with:
+
+Llama 3.1 8B Instruct (good quality, fits consumer GPUs/CPU; ollama pull llama3.1:8b).
+
+Optional alternative for speed: Mistral 7B Instruct.
+
+Use function-like prompts (few-shot) to produce structured JSON edits (see schema below).
+
+Optional: Small keyword extractor prompt (or regex + TF-IDF) to ensure ATS keywords.
+
+Core UX
+
+Inputs
+
+Job Link (preferred). If site blocks scraping, show “Paste JD text” box.
+
+Reference Resume file picker: DOCX or PDF.
+
+Company detected from JD (editable).
+
+Role-Year suggested (e.g., “Software Engineer 2025”).
+
+Modes Toggle
+
+Granular: side-by-side diff (left = original; right = proposed), accept/reject per bullet/section.
+
+Auto-apply: apply changes live to the editor; single undo stack.
+
+Editor
+
+Google-Docs-like toolbar; content is fully editable.
+
+One-page fitter: automatically adjust margins and font size (Arial by default) to keep on one page but never below your readability threshold (floor e.g. 10 pt). If still overflowing, compress whitespace and condense bullets.
+
+Rules Engine (enforced automatically)
+
+Sections: Contact, Education, Experience, Projects, Skills. Optional: Coursework, Publications.
+
+Impact-first, metric-led, STAR verbs, 1–2 lines per bullet.
+
+No “empty” bullets: heuristics to merge/swap so lines are ~≥80% width on average.
+
+Skills: include skills not already present in body; if duplicates exist, prefer body over skills.
+
+Strict single page target; if not possible, show a soft warning and recommended tradeoffs.
+
+File Output
+
+Creates directories locally only:
+
+D:\UD\Resume-CL\{Company}\{Role-Year}\
+
+
+Filenames (constant):
+Soham Chousalkar - Resume.docx and .pdf
+Soham Chousalkar - Cover Letter.docx and .pdf (only on request)
+
+Never delete anything automatically; only create (or prompt you to rename if conflicts).
+
+Cover Letter
+
+Only when requested (button: “Generate Cover Letter”).
+
+Uses your reference cover letter as style guide; fully auto-tailored text dropped into the editor for your tweaks.
+
+Change Log (toggle)
+
+When enabled: list of edits → target section → snippet + (optionally) JD sentence that motivated it.
+
+Job Intake & Scraping
+
+Primary: fetch job link with Playwright headless. Parse title, location, JD text.
+
+If blocked or paywalled: show Paste JD fallback. (Recommend: don’t hardcode scrapers per site to start; keep a generic text extractor; add site adapters later if needed.)
+
+Note: Some sites’ ToS disallow scraping. Keep Paste JD as an always-available path.
+
+Data Models
+1) Internal JSON Resume (extended)
+{
+  "contact": {
+    "name": "Soham Chousalkar",
+    "phone": "937-554-2596",
+    "email": "chousalkars1@udayton.edu",
+    "github": "github.com/Soham-Chousalkar",
+    "linkedin": "linkedin.com/in/sohamchousalkar",
+    "portfolio": "soham-chousalkar.github.io/Portfolio/"
+  },
+  "education": [{ "school": "", "degree": "", "dates": "", "gpa": "" }],
+  "experience": [
+    {
+      "company": "",
+      "role": "",
+      "location": "",
+      "dates": "",
+      "bullets": ["..."]
+    }
+  ],
+  "projects": [{ "name": "", "tech": ["Python","..."], "bullets": ["..."] }],
+  "skills": ["..."],
+  "optional": {
+    "coursework": ["..."],
+    "publications": ["..."]
+  },
+  "layout": {
+    "font": "Arial",
+    "fontSizePt": 11,
+    "marginsIn": { "top": 0.5, "right": 0.5, "bottom": 0.5, "left": 0.5 }
+  }
+}
+
+2) AI Edit Plan (LLM Output)
+{
+  "keywords": { "must": ["..."], "nice": ["..."] },
+  "edits": {
+    "experience": [
+      {
+        "index": 0,
+        "replaceBullets": [
+          "Led X to achieve Y (+25%) by Z.",
+          "Built A using B/C, cutting latency 30%."
+        ]
+      }
+    ],
+    "projects": [{ "index": 1, "remove": true }, { "insertAfter": 0, "project": { "...": "..." } }],
+    "skills": { "add": ["Kafka"], "remove": ["Excel"] }
+  },
+  "formatting": {
+    "targetOnePage": true,
+    "minFontPt": 10,
+    "shrinkIfOverflow": true
+  },
+  "riskFlags": ["Bullets with unverifiable claims in exp[1]"],
+  "changelog": [
+    { "section": "experience[0]", "reasonJD": "Req: streaming pipelines", "action": "added Kafka" }
+  ]
+}
+
+File & Folder Rules
+
+Folder names:
+
+Company = exactly the official name parsed from JD (you can edit).
+
+Role-Year examples: Software Engineer 2025, Associate Engineer 2026, Summer Intern 2026, AI/ML Intern 2026.
+
+Tree:
+
+D:\UD\Resume-CL\Google\Software Engineer 2025\
+  - Soham Chousalkar - Resume.docx
+  - Soham Chousalkar - Resume.pdf
+  - [optional] Soham Chousalkar - Cover Letter.docx/.pdf
+  - meta.json  (version history, prompts, JD snapshot)
+
+
+Permissions: app only touches D:\UD\Resume-CL subtree.
+
+“Google Docs” Look & Feel (locally)
+
+TipTap editor theme:
+
+A4/Letter page frame with margin guides,
+
+Toolbar: font (Arial), size, bold/italic, bullet/numbered list, spacing, align, undo/redo,
+
+Suggestion mode in Granular Mode (diff overlay + accept/reject).
+
+Export:
+
+DOCX via docx (JS) or PizZip + docxtemplater.
+
+PDF via headless print.
+
+Logic Highlights
+1) One-Page Fitting (soft → firm)
+
+Trim extra whitespace; merge too-short bullets (heuristic: if line length < 80% avg and semantically adjacent, merge).
+
+Prefer compressing Projects first if overflow.
+
+If still overflow: reduce line-height slightly (never below 1.0), then font to min (e.g., 10 pt).
+
+If still overflow: suggest dropping least-relevant project or lowest-impact bullet (shows prompt to you).
+
+2) Skills Rule
+
+Skills list = set difference between “JD-relevant skills” and “skills found in body text.”
+
+Never duplicate (if “AWS” appears in a bullet, don’t repeat unless needed for ATS density).
+
+3) Turn-Based Workflow
+
+Step 1: AI proposes edit plan (JSON).
+
+Step 2: Apply in Granular (default) → accept/reject per item.
+
+Step 3: You tweak text freely in editor.
+
+Step 4: (Optional) “AI refine again” button—re-runs considering your edits.
+
+Cover Letter (on demand)
+
+Source: Your provided reference CL (style seed).
+
+Template logic: company + role + 2–3 proof bullets matched to JD + polite close.
+
+Editable in the same editor. Saved alongside resume.
+
+Versioning & QA
+
+meta.json per Role-Year folder:
+
+Timestamp, JD snapshot, prompts used, model, keyword coverage %, optional changelog.
+
+Keyword Coverage meter in UI (e.g., 0–100%).
+
+Risk flags surfaced before export (toggle to show/hide).
+
+Security & Privacy
+
+Entirely local. No logs outside the app folder.
+
+No deletes—only creates/updates. Prompts you if a file exists.
+
+Suggested File Map (for Cursor)
+/app
+  /electron
+    main.ts
+    fs-guard.ts           # restricts all FS ops to D:\UD\Resume-CL
+    job-scraper.ts        # Playwright fetch; fallback to paste
+  /renderer
+    index.html
+    index.tsx
+    /components
+      Editor.tsx          # TipTap + “Docs-like” theme
+      DiffPane.tsx        # side-by-side diffs, accept/reject
+      Toolbar.tsx
+      ModeToggle.tsx
+      CoverageMeter.tsx
+      ChangeLogPane.tsx
+    /state
+      resumeStore.ts      # JSON Resume state
+      settingsStore.ts
+  /services
+    parseDocx.ts
+    parsePdf.ts
+    jdExtractor.ts
+    planEdits.ts          # calls Ollama, returns AI Edit Plan
+    applyEdits.ts         # pure function; JSON Edit Plan -> Resume JSON
+    onePageFit.ts
+    exportDocx.ts
+    exportPdf.ts
+    keywordCoverage.ts
+    riskFlags.ts
+  /models
+    prompts.ts            # system & few-shot prompts
+  /tests
+    rules.test.ts         # bullets, skills rule, one-page fitter
+    exporters.test.ts
+    applyEdits.test.ts
+
+Prompts (summarized)
+
+EditPlan Prompt (to LLM):
+
+Inputs: JD text, Resume JSON, constraints (STAR, metrics, 1–2 lines, one-page, skills rule).
+
+Output: AI Edit Plan JSON (schema above) — no prose.
+
+CoverLetter Prompt:
+
+Inputs: JD, resume highlights, your reference CL.
+
+Output: 4–6 paragraph CL (strict format), + optional “shorten to 1 page” mode.
+
+Unit Tests (yes)
+
+Rules: no duplicate skills, 1–2 line bullets, ≥80% line utilization where possible.
+
+One-page: shrinking order and floor respected.
+
+ApplyEdits: deterministic application of JSON plan.
+
+Exporters: DOCX/PDF contain required sections.
+
+Build/Run
+
+Dev: pnpm dev launches Electron + React.
+
+Prod: pnpm build && pnpm dist for Windows installer.
+
+Prereqs: Node 20+, Playwright, Ollama + llama3.1:8b pulled locally.
+
+Roadmap (after MVP)
+
+Per-site scrapers (LinkedIn/Handshake/Greenhouse) via adapters.
+
+Local embeddings for smarter keyword/semantic alignment.
+
+“Application helper” (copy-paste fill for Workday/Greenhouse).
+
+Optional Google Docs API integration (suggestion mode) if you ever want cloud sync.
+
+Quick Answers to Your Constraints
+
+Free: Yes—local LLMs via Ollama, no OpenAI spend.
+
+Docs-like editor: Yes—TipTap theme, exports to DOCX/PDF.
+
+Local folders only: Yes—FS access locked to D:\UD\Resume-CL.
+
+Two modes: Yes—Granular vs Auto-apply.
+
+Cover letters: Only when you click “Generate CL.”
+
+Real-time: Turn-based (AI pass → your edits → optional AI refine).
+
+Quality > latency: Default to strongest local model; allow a “fast mode.”

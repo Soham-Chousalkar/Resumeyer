@@ -1,0 +1,81 @@
+.job-description-container {
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  margin: 10px 0;
+  background-color: #fff;
+}
+
+.job-description-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid var(--border-color);
+  background-color: #f8f8f8;
+}
+
+.job-description-header h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.toggle-button {
+  background-color: transparent;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 3px 8px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.toggle-button:hover {
+  background-color: #f0f0f0;
+}
+
+.job-description-form {
+  padding: 10px;
+}
+
+.job-description-textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 14px;
+  resize: vertical;
+}
+
+.job-description-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.submit-button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 15px;
+  cursor: pointer;
+}
+
+.submit-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.clear-button {
+  background-color: transparent;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 8px 15px;
+  cursor: pointer;
+}
+
+.clear-button:disabled {
+  color: #999;
+  cursor: not-allowed;
+}

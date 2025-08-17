@@ -1,0 +1,170 @@
+.document-preview-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.preview-title {
+  margin: 0 0 10px 0;
+  font-size: 16px;
+  color: var(--secondary-color);
+}
+
+.preview-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  padding: 5px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.zoom-button {
+  width: 30px;
+  height: 30px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.zoom-level {
+  min-width: 50px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.reset-button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 10px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.preview-wrapper {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background-color: #e0e0e0;
+  /* Gray background outside the page */
+}
+
+.preview-transform-wrapper {
+  width: 100% !important;
+  height: 100% !important;
+  overflow: hidden !important;
+}
+
+.preview-transform-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.document-preview {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px;
+  min-height: 100%;
+}
+
+/* A4 page dimensions: 210mm × 297mm */
+/* Using a scale factor for pixels: ~3.78px per mm */
+.a4-page {
+  width: 794px;
+  /* 210mm in pixels */
+  height: 1123px;
+  /* 297mm in pixels */
+  background-color: white;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  padding: 75px;
+  /* ~20mm margins */
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #000;
+  overflow: visible;
+  position: relative;
+  transform-origin: top center;
+  box-sizing: border-box;
+}
+
+.a4-page p {
+  margin-bottom: 8px;
+  text-align: left;
+  font-size: 12px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+}
+
+.a4-page .doc-header {
+  font-weight: bold;
+  margin-top: 15px;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.a4-page ul,
+.a4-page ol {
+  margin-left: 20px;
+  margin-bottom: 8px;
+  padding-left: 15px;
+}
+
+.a4-page li {
+  margin-bottom: 3px;
+  text-align: left;
+}
+
+/* PDF specific styling */
+.a4-page.pdf-content {
+  font-family: 'Helvetica', 'Arial', sans-serif;
+  line-height: 1.6;
+}
+
+.a4-page.pdf-content .doc-header {
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+.a4-page.pdf-content p {
+  margin-bottom: 12px;
+}
+
+/* Specific resume styling */
+.a4-page p:first-child {
+  /* Name styling */
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+.a4-page p:nth-child(2) {
+  /* Contact info styling */
+  font-size: 11px;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.drag-hint {
+  text-align: center;
+  padding: 5px;
+  font-size: 11px;
+  color: #777;
+  margin-top: 5px;
+}
